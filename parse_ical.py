@@ -35,8 +35,8 @@ class IcsParser:
 
 	'''
 		Private method __parseToDictionary__
-		parses .ics to Dictionary
-		Returns: dictionary {'holidayName': vText('example'), 'holidayDate': datetime.date(2014, 12, 25)}
+		parses .ics file to list of holidays
+		Returns: list of dictionary {'holidayName': vText('example'), 'holidayDate': datetime.date(2014, 12, 25)}
 	'''
 	def __parseToDictionary__(self):
 		if self.icsFile is not None:
@@ -44,12 +44,11 @@ class IcsParser:
 			gcal = Calendar.from_ical(self.icsFile)
 			for component in gcal.walk():
 				if component.name == "VEVENT":
-					print a
-					result.append({'holidayName': component.get('summary'), 'holidayDate': component.get('dtstart').dt})
+					result.append({'holidayName': component.get('summary'), 'holidayDate': component.get('dtstart').dt.strftime("%d-%m-%Y")})
 		
 		return result
 
-
 if __name__ == '__main__':
 	parser = IcsParser()
+	print parser.getIcs('isl', '2014', '2014')
 	print parser.getIcs('isl', '2014', '2014')
