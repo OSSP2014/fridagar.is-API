@@ -25,7 +25,11 @@ class HtmlParser:
 				try:
 					key = tds[2].text
 					value = tds[1].text
-					result.append({'countryKey' : key, 'countryName' : value})
+					regions = tds[5].select('a')
+					countryRegions = []
+					for region in regions:
+						 countryRegions.append(region.text)
+					result.append({'countryKey' : key, 'countryName' : value, 'countryRegions' : countryRegions})
 				except IndexError:
 					continue
 		return result
