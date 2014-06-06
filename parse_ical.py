@@ -21,8 +21,7 @@ class IcsParser:
 	'''
 	def getIcs(self, country, fromYear, toYear):
 		self.__downloadFile__(country, fromYear, toYear)
-		parsed = self.__parseToDictionary__()
-		return parsed
+		return self.__parseToDictionary__()
 
 	'''
 		Private method __downloadFile__
