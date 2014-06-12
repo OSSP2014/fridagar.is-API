@@ -6,10 +6,11 @@ iCalendar python module: https://pypi.python.org/pypi/icalendar/2.1
 $ pip install icalendar
 ```
 
-Flask python module: http://flask.pocoo.org
+Flask python module: http://flask.pocoo.org and enable CORS for Flask: https://pypi.python.org/pypi/Flask-Cors/1.2.1
 
 ```sh
 $ pip install Flask
+$ pip install flask-cors
 ```
 
 And we're using memcached to cache holidays: https://pypi.python.org/pypi/python-memcached/1.53
