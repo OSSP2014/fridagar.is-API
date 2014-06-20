@@ -1,18 +1,19 @@
 from flask import Flask, jsonify
 from flask.ext.cors import cross_origin
+from flask.ext.cache import Cache
 from parse_ical import IcsParser
 from parse_html import HtmlParser
-from cache_function import memorize
-import time
 
 icsParser = IcsParser()
 htmlParser = HtmlParser()
 
 baseUrl = "/api"
 app = Flask(__name__)
+cache = Cache(app,config={'CACHE_TYPE': 'simple'})
+
+oneMonth = 60*60*24*30
 
 @app.route("/")
-# @cross_origin()
 def hello():
 	return "Hello World!"
 
@@ -26,11 +27,11 @@ def holidays(language, fromYear, toYear):
 def countries():
 	return jsonify(result=getCountries())
 
-@memorize
+@cache.memoize(oneMonth)
 def getHolidays(language, fromYear, toYear):
 	return icsParser.getIcs(language, fromYear, toYear)
 
-@memorize
+@cache.memoize(oneMonth)
 def getCountries():
 	return htmlParser.getCountries()
 

@@ -7,7 +7,7 @@ class HtmlParser:
 
 	def getCountries(self):
 		htmlFile = self.__downloadFile__()
-		return self.__parseToDictionary__(htmlFile)
+		return self.__parseCountriesToDictionary__(htmlFile)
 
 	def __downloadFile__(self):
 		response = urllib2.urlopen(self.url)
@@ -15,7 +15,7 @@ class HtmlParser:
 		response.close()
 		return html
 
-	def __parseToDictionary__(self, htmlFile):
+	def __parseCountriesToDictionary__(self, htmlFile):
 		if htmlFile is not None:
 			result = []
 			soup = bs(htmlFile, from_encoding='utf8')

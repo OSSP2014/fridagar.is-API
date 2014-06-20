@@ -50,4 +50,3 @@ class IcsParser:
 if __name__ == '__main__':
 	parser = IcsParser()
 	print parser.getIcs('isl', '2014', '2014')
-	print parser.getIcs('isl', '2014', '2014')
