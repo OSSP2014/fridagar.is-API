@@ -29,6 +29,8 @@ class IcsParser:
 	'''
 	def __downloadFile__(self, country, fromYear, toYear):
 		response = urllib2.urlopen(self.url % (country, fromYear, toYear))
+		if response.info().getheader('Content-Type') != 'text/calendar; charset=utf-8':
+			raise ValueError('Parameters for holiday api not correct')
 		self.icsFile = response.read()
 		response.close()
 
@@ -42,7 +44,7 @@ class IcsParser:
 			result = []
 			gcal = Calendar.from_ical(self.icsFile)
 			for component in gcal.walk():
-				if component.name == "VEVENT":
+				if component.name == 'VEVENT':
 					result.append({'holidayName': component.get('summary'), 'holidayDate': component.get('dtstart').dt.strftime("%Y-%m-%d %H:%M:%S")})
 		
 		return result
