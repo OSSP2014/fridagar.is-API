@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from flask.ext.cors import cross_origin
 from flask.ext.cache import Cache
 from parse_ical import IcsParser
@@ -7,25 +7,31 @@ from parse_html import HtmlParser
 icsParser = IcsParser()
 htmlParser = HtmlParser()
 
-baseUrl = "/api"
+baseUrl = '/api'
 app = Flask(__name__)
 cache = Cache(app,config={'CACHE_TYPE': 'simple'})
 
 oneMonth = 60*60*24*30
 
-@app.route("/")
+@app.route('/')
 def hello():
-	return "Hello World!"
+	return 'Hello World!'
 
-@app.route(baseUrl + "/holidays/<language>/<fromYear>/<toYear>")
+@app.route(baseUrl + '/holidays/<language>/<fromYear>/<toYear>')
 @cross_origin()
 def holidays(language, fromYear, toYear):
-	return jsonify(result=getHolidays(language, fromYear, toYear))
+	try:
+		return jsonify(result=getHolidays(language, fromYear, toYear))
+	except:
+		abort(400)
 
-@app.route(baseUrl + "/countries")
+@app.route(baseUrl + '/countries')
 @cross_origin()
 def countries():
-	return jsonify(result=getCountries())
+	try:
+		return jsonify(result=getCountries())
+	except:
+		abort(400)
 
 @cache.memoize(oneMonth)
 def getHolidays(language, fromYear, toYear):
@@ -35,5 +41,5 @@ def getHolidays(language, fromYear, toYear):
 def getCountries():
 	return htmlParser.getCountries()
 
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    app.run(debug=True)
