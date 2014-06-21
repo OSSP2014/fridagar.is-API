@@ -15,3 +15,8 @@ $ pip install Flask
 $ pip install flask-cors
 $ pip install Flask-Cache
 ```
+
+Run server:
+```sh
+$ python server.py
+```
