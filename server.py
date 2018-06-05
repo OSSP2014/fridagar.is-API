@@ -4,6 +4,8 @@ from flask.ext.cache import Cache
 from flask.ext.autodoc import Autodoc
 from parse_ical import IcsParser
 from parse_html import HtmlParser
+from flask import Response
+import json
 
 icsParser = IcsParser()
 htmlParser = HtmlParser()
@@ -27,7 +29,7 @@ def holidays(country, fromYear, toYear):
 		Get holidays for specified country and period
 	'''
 	try:
-		return jsonify(result=getHolidays(country, fromYear, toYear))
+		return Response(json.dumps(getHolidays(country, fromYear, toYear)), status=200, mimetype='application/json')
 	except:
 		abort(400)
 
@@ -39,7 +41,7 @@ def countries():
 		Get all supported countries
 	'''
 	try:
-		return jsonify(result=getCountries())
+		return Response(json.dumps(getCountries()), status=200, mimetype='application/json')
 	except:
 		abort(400)
 
